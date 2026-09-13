@@ -158,7 +158,9 @@ function Home() {
     const node = statsRef.current;
     if (!node) return;
     const observer = new IntersectionObserver(
-      ([entry]) => entry.isIntersecting && setStatsVisible(true),
+      ([entry]) => {
+        if (entry?.isIntersecting) setStatsVisible(true);
+      },
       { threshold: 0.3 },
     );
     observer.observe(node);
@@ -166,7 +168,7 @@ function Home() {
   }, []);
 
   const visibleNotices = filter === "All" ? notices : notices.filter((n) => n.category === filter);
-  const t = testimonials[slide];
+  const t = testimonials[slide] ?? testimonials[0]!;
 
   return (
     <>
